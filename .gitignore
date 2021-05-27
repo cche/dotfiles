@@ -1,0 +1,11 @@
+plugin/
+tags*
+.netrwhist
+session
+wiki/
+pack/
+lua-language-server/
+.language-servers/
+.debuggers/
+spell/
+tmp/

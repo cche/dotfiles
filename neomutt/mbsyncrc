@@ -1,0 +1,26 @@
+IMAPStore work-remote
+Host imap.work-server.com
+Port  993
+User <your-login>
+PassCmd "gpg --batch -q --decrypt ~/.config/mutt/accounts/account.pgp"
+SSLType IMAPS
+CertificateFile /etc/ssl/cert.pem
+
+MaildirStore work-local
+Subfolders Verbatim
+Path ~/.local/share/mail/work/
+Inbox ~/.local/share/mail/work/INBOX
+Flatten .
+
+Channel work
+Expunge Both
+Master :work-remote:
+Slave :work-local:
+Patterns *
+Create Both
+SyncState *
+MaxMessages 0
+# End profile
+
+
+

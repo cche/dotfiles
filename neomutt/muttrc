@@ -1,0 +1,182 @@
+set abort_backspace=yes
+set mailcap_path = ~/.config/mutt/mailcap
+set date_format="%d/%m %I:%M"
+set send_charset="us-ascii:iso-8859-1:utf-8"
+set index_format="%2C %Z %d %-20.20F (%-4.4c) %s"
+set smtp_authenticators = 'gssapi:login'
+set query_command = "abook --mutt-query '%s'"
+set rfc2047_parameters = yes
+set sleep_time = 0		# Pause 0 seconds for informational messages
+set delete_untag = yes  # untag mail when deleted
+set markers = no		# Disables the `+` displayed at line wraps
+set mark_old = no		# Unread mail stay unread until read
+set mime_forward = yes		# attachments are forwarded with mail
+set wait_key = no		# mutt won't ask "press key to continue"
+set fast_reply			# skip to compose when replying
+set fcc_attach			# save attachments with the body
+set attach_save_dir = "~/Downloads/attachments"
+set flag_safe=yes
+set forward_format = "Fwd: %s"	# format of subject when forwarding
+set forward_quote		# include message in forwards
+set forward_decode      # decode when forwarding
+set reverse_name		# reply as whomever it was to
+set include			# include message in replies
+set mail_check=60 # to avoid lags using IMAP with some email providers (yahoo for example)
+set mail_check_recent=yes
+set smart_wrap=yes
+set text_flowed
+#
+# Set command for new_mail_command
+#
+auto_view text/* application/* image/* audio/*
+# auto_view text/html		# automatically show html (mailcap uses w3m)
+# auto_view application/pgp-encrypted
+alternative_order  text/html text/plain text/enriched
+bind index \Cf noop
+
+#------------------------------------------------------------
+# Vi Key Bindings
+#------------------------------------------------------------
+
+# Moving around
+bind attach,browser,index       g   noop
+bind attach,browser,index       gg  first-entry
+bind attach,browser,index       G   last-entry
+bind pager                      g   noop
+bind pager                      gg  top
+bind pager                      G   bottom
+bind pager,browser              k   previous-line
+bind pager,browser              j   next-line
+
+# Scrolling
+bind attach,browser,pager,index \CF next-page
+bind attach,browser,pager,index \CB previous-page
+bind attach,browser,pager,index \Cu half-up
+bind attach,browser,pager,index \Cd half-down
+bind browser,pager              \Ce next-line
+bind browser,pager              \Cy previous-line
+bind index                      \Ce next-line
+bind index                      \Cy previous-line
+
+bind pager,index                d   noop
+bind pager,index                dd  delete-message
+
+# Mail & Reply
+bind index                      \Cm list-reply # Doesn't work currently
+# Threads
+bind browser,pager,index        N   search-opposite
+bind pager,index                dT  delete-thread
+bind pager,index                dt  delete-subthread
+bind pager,index                gt  next-thread
+bind pager,index                gT  previous-thread
+bind index                      za  collapse-thread
+bind index                      zA  collapse-all
+# General rebindings
+bind attach <return> view-mailcap
+bind attach l view-mailcap
+bind editor <space> noop
+bind pager,attach h exit
+bind pager l view-attachments
+bind index U undelete-message
+bind index L limit
+bind index h noop
+bind index l display-message
+macro browser h '<change-dir><kill-line>..<enter>' "Go to parent folder"
+bind index,pager H view-raw-message
+bind browser l select-entry
+# bind pager,browser gg top-page
+# bind pager,browser G bottom-page
+#bind index,pager,browser d half-down
+#bind index,pager,browser u half-up
+#bind index,pager S sync-mailbox
+bind index,pager R group-reply
+# bind index \031 previous-undeleted	# Mouse wheel
+# bind index \005 next-undeleted	# Mouse wheel
+bind pager <up> previous-line		# Mouse wheel
+bind pager <down> next-line		# Mouse wheel
+bind editor <Tab> complete-query
+# Bind compose
+bind compose p postpone-message
+set nm_default_url = "notmuch://~/.local/share/mail"
+# generate virtual folder from query
+
+# Search email using notmuch *** both work hve to decide which to use
+bind index,pager \Cf vfolder-from-query
+macro index S "<enter-command>unset wait_key<enter><shell-escape>mutt-notmuch-py<enter><change-folder-readonly>~/.cache/mutt_results<enter>" "search mail (using notmuch)"
+
+macro pager  \Cv <pipe-entry>'urlview'<enter> 'Follow links with urlview'
+macro index,pager a "|abook --add-email-quiet\n" 'add sender to abook'
+macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
+macro index O "<shell-escape>mailsync -Va<enter>" "run mbsync to sync all mail"
+macro index A "<limit>all\n" "show all messages (undo limit)"
+macro attach C "<enter-command>unset wait_key<enter><shell-escape>rm -f /tmp/events.ics<enter><save-entry><kill-line>/tmp/events.ics<enter><shell-escape>vkhal -k /tmp/events.ics<enter>"
+
+# Some settings I have to test
+# set menu_scroll            # scroll in menus
+# set pager_context     = 3  # number of context lines to show
+# set pager_index_lines = 10 # number of index lines to show
+# set pager_stop             # don't go to next message automatically
+# set quote_regexp      = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+# set tilde                  # show tildes like in vim
+# unset markers              # no ugly plus signs
+
+# URLs
+
+# Alternative, `urlview` is installed via Homebrew.
+# macro pager b "|urlview<enter>" "call urlview to open links"
+
+# Install via pip: `sudo pip3 install -I urlscan`
+# macro pager b "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs out of a message"
+
+# set status_chars  = " *%A"
+set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
+
+# Sidebar mappings
+set sidebar_visible = yes
+set sidebar_width = 20
+set sidebar_short_path = yes
+set sidebar_next_new_wrap = yes
+set mail_check_stats
+set sidebar_format = '%B%?F? [%F]?%* %?N?%N/? %?S?%S?'
+bind index,pager \Ck sidebar-prev
+bind index,pager \Cj sidebar-next
+bind index,pager \Cl sidebar-open
+bind index,pager \Cp sidebar-prev-new
+bind index,pager \Cn sidebar-next-new
+bind index,pager B sidebar-toggle-visible
+
+# color theme
+#source ~/.config/mutt/colors/dracula.muttrc
+#source ~/.config/mutt/colors/mutt-colors-solarized-dark-256.muttrc
+#source ~/.config/mutt/colors/colors-gruvbox-shuber-dark.muttrc
+#source ~/.config/mutt/colors/colors-gruvbox-shuber-extended.muttrc
+#source ~/.config/mutt/colors/darnir-colors.muttrc
+source ~/.config/mutt/colors/colors-vombatidae.muttrc
+
+
+folder-hook work/* source ~/.config/mutt/accounts/work.muttrc
+folder-hook hotmail/* source ~/.config/mutt/accounts/hotmail.muttrc
+folder-hook gmail/* source ~/.config/mutt/accounts/gmail.muttrc
+
+
+# Start on the work account
+source "~/.config/mutt/accounts/work.muttrc"
+
+### Sorting ###
+set sort     = 'threads'
+set sort_aux = 'reverse-last-date-received'
+
+### Charset ###
+set charset      = "utf-8"
+
+### Set your editor (vim or nvim in my case) and the languages you use
+set editor = "nvim -c 'set spell spelllang=fr,en,es'"
+# Other
+bind  editor         <delete>  delete-char
+
+bind index,pager i noop
+
+macro index,pager i1 '<sync-mailbox><enter-command>source ~/.config/mutt/accounts/work.muttrc<enter><change-folder>!<enter>;<check-stats>' "Change to work email"
+macro index,pager i2 '<sync-mailbox><enter-command>source ~/.config/mutt/accounts/gmail.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to Gmail"
+macro index,pager i3 '<sync-mailbox><enter-command>source ~/.config/mutt/accounts/hotmail.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to Hotmail"
+

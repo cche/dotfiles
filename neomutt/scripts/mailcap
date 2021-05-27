@@ -1,0 +1,36 @@
+## MS Word documents
+application/msword; view-attachment.sh %s "-" '/Applications/LibreOffice.app'
+application/vnd.openxmlformats-officedocument.wordprocessingml.document; view-attachment.sh %s "-" '/Applications/LibreOffice.app'
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; view-attachment.sh %s "-" '/Applications/LibreOffice.app'
+application/vnd.oasis.opendocument.spreadsheet; view-attachment.sh %s "-" '/Applications/LibreOffice.app'
+application/vnd.ms-excel; view-attachment.sh %s "-" '/Applications/LibreOffice.app'
+application/vnd.openxmlformats-officedocument.presentationml.presentation; view-attachment.sh %s "-" '/Applications/LibreOffice.app'
+application/vnd.oasis.opendocument.text; view-attachment.sh %s "-" '/Applications/LibreOffice.app'
+application/pdf; view-attachment.sh %s "-" ""
+text/calendar; vkhal -s %s; copiousoutput
+application/ics; vkhal -s %s; copiousoutput
+
+# text/*;                           LESSQUIET=1 lesspipe.sh '%s'; copiousoutput
+# application/*;                    LESSQUIET=1 lesspipe.sh '%s'; copiousoutput
+image/*;  imgcat '%s'; copiousoutput
+# image/*;                          LESSQUIET=1 lesspipe.sh '%s'; copiousoutput
+audio/*;                          LESSQUIET=1 lesspipe.sh '%s'; copiousoutput
+
+# Images
+image/jpg; quicklook.sh %s jpg
+image/jpeg; quicklook.sh %s jpg
+image/pjpeg; quicklook.sh %s jpg
+image/png; quicklook.sh %s png
+image/gif; quicklook.sh %s gif
+video/mp4; quicklook.sh %s mp4
+
+text/plain; $EDITOR %s ;
+text/html; view-attachment.sh %s html
+#text/html; w3m -I "utf-8" -T text/html; copiousoutput;
+text/html; w3m -I %{charset} -T text/html; copiousoutput;
+# image/*; openfile %s ; copiousoutput
+video/*; setsid mpv --quiet %s &; copiousoutput
+# application/pdf; openfile %s ;
+application/pgp-encrypted; gpg -d '%s'; copiousoutput;
+# Unidentified files
+application/octet-stream; view-attachment.sh %s "-"

@@ -1,0 +1,30 @@
+defaults
+auth	on
+tls	on
+tls_trust_file	/etc/ssl/cert.pem
+logfile	~/.config/msmtp/msmtp.log
+
+
+account gmail
+host smtp.gmail.com
+port 587
+from <account-name>@gmail.com
+user <account-name>@gmail.com
+passwordeval "pass gmail-pass"
+
+
+account work
+host smtps.your-smtp-server.com
+port 587
+from <account-name>@your-smtp-server.com
+user <user-login>
+passwordeval "pass work-pass"
+
+account hotmail
+host smtp-mail.outlook.com
+port 25
+from <account-name>@hotmail.com
+user <account-name>@hotmail.com
+passwordeval "pass hotmail-pass"
+
+
