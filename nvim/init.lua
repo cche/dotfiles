@@ -149,7 +149,7 @@ require('settings')
 require('keymappings')
 require('plugconf.nvimtree') -- This plugin must be required before colorscheme.  Placing it after will break navigation keymappings
 require('colorscheme') -- This plugin must be required somewhere after nvimtree. Placing it before will break navigation keymappings
-require('plugconf.galaxyline')
+-- require('plugconf.galaxyline')
 require('nvim_comment').setup()
 require('plugconf.compe')
 require('plugconf.barbar')
@@ -158,6 +158,10 @@ require('plugconf.gitsigns')
 require('plugconf.treesitter')
 require('plugconf.floaterm')
 require('plugconf.watson')
+require('plugconf.status')
+require('lsp-status').status()
+
+-- Add wiki.vim from verlag
 
 --require('lv-autopairs')
 require('plugconf.which-key')

@@ -60,6 +60,8 @@ return require("packer").startup(
         use {'iamcco/markdown-preview.nvim', run = 'cd app && npm install', ft = {'markdown'}}
         use 'voldikss/vim-floaterm'
 
+        -- use {'verlag/wiki.vim'}
+
         -- TODO.TXT
         use {'freitass/todo.txt-vim', opt = true, ft = {'todo'}}
         use {'ccchapman/watson.nvim'}
@@ -73,7 +75,8 @@ return require("packer").startup(
         use {"kyazdani42/nvim-web-devicons"}
 
         -- Status Line and Bufferline
-        use {"glepnir/galaxyline.nvim"}
+        use {'wbthomason/lsp-status.nvim'}
+        -- use {"glepnir/galaxyline.nvim"}
         use {"romgrk/barbar.nvim"}
     end
 )
