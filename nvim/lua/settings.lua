@@ -15,10 +15,6 @@ O.wrap_lines = false
 O.timeoutlen = 100
 O.shell = "fish"
 
--- dashboard
--- O.dashboard.custom_header = {""}
--- O.dashboard.footer = {""}
-
 -- if you don't want all the parsers change this to a table of the ones you want
 O.treesitter.ensure_installed = {"bash", "c", "cpp", "css", "dockerfile", "fish",
     "html", "javascript", "json", "julia", "lua", "python", "ql", "r", "rst",
@@ -32,9 +28,6 @@ O.clang.diagnostics.signs = false
 O.clang.diagnostics.underline = false
 
 -- python
--- add things like O.python.formatter.yapf.exec_path
--- add things like O.python.linter.flake8.exec_path
--- add things like O.python.formatter.isort.exec_path
 O.python.formatter = 'black'
 O.python.linter = 'pylint'
 O.python.isort = true
@@ -47,7 +40,6 @@ O.python.analysis.auto_search_paths = true
 O.python.analysis.use_library_code_types = true
 
 -- lua
--- TODO look into stylua
 O.lua.formatter = 'lua-format'
 O.lua.autoformat = false
 
@@ -61,4 +53,3 @@ O.json.autoformat = true
 
 -- ruby
 O.ruby.autoformat = true
--- create custom autocommand field (This would be easy with lua)

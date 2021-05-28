@@ -2,13 +2,6 @@ local cmd = vim.cmd
 local fn = vim.fn
 local g = vim.g
 
-local function opt(scope, key, value)
-  local scopes = { o = vim.o, b = vim.bo, w = vim.wo }
-  scopes[scope][key] = value
-  if scope ~= "o" then
-    scopes["o"][key] = value
-  end
-end
 
 local function map(mode, lhs, rhs, opts)
   local options = { noremap = true, silent = true }
@@ -28,114 +21,99 @@ cmd('filetype plugin on')
 
 require "plugins"
 
+if fn.has("termguicolors") == 1 then
+  vim.o.termguicolors = true
+end
+vim.o.t_Co = "256"
+
 g["mapleader"] = " "
 -- g["maplocalleader"] = "\\"
 
-opt("o", "ignorecase", true) -- Ignore the case, unless...
-opt("o", "smartcase", true)  -- ...there's caps in it.
-
---  displaying text --
-
-opt("o", "scrolloff", 3)
-opt("o", "linebreak", true)
-opt("o", "breakindent", true)
-opt("o", "showbreak", "↪")
-opt("o", "lazyredraw", true)
-opt("o", "list", true)
-opt("w", "wrap", true)
-opt("o", "fileencoding", "utf-8")
-opt("o", "pumheight", 10)
-opt("o", "conceallevel", 0)
-opt("w", "number", true)
-opt("w", "relativenumber", true)
+vim.o.ignorecase = true -- Ignore the case, unless...
+vim.o.smartcase = true  -- ...there's caps in it.
+vim.o.scrolloff = 5
+vim.o.linebreak = true
+vim.o.breakindent = true
+vim.o.showbreak = "↪"
+vim.o.lazyredraw = true
+vim.o.list = true
+vim.o.fileencoding = "utf-8"
+vim.o.pumheight = 10
+vim.o.pumblend = 17
+vim.o.conceallevel = 0
+vim.wo.wrap = true
+vim.wo.number = true
+vim.wo.relativenumber = true
 vim.o.cmdheight = 2
-
--- syntax, highlighting and spelling ---
+vim.o.synmaxcol = 800
+vim.o.hlsearch = true
+vim.o.incsearch = true
+vim.o.cursorline = true
+vim.o.guifont = "Fira Code Regular:h17"
+vim.o.clipboard = "unnamedplus"
+vim.o.hidden = true
+vim.o.splitbelow = true
+vim.o.splitright = true
+vim.o.title = true
+if fn.has("mouse") == 1 then
+  vim.o.mouse = "a"
+end
+vim.o.showcmd = true
+vim.o.showmode = true
+vim.o.updatetime = 1000
+vim.wo.cursorline = true
 
 -- opt("o", "background", "dark")
+-- opt("o", "showmatch", true)
 
-if fn.has("termguicolors") == 1 then
-  opt("o", "termguicolors", true)
-end
-opt("o", "t_Co", "256")
+-- Set completeopt to have a better completion experience
+vim.o.completeopt = "menuone,noinsert,noselect"
 
-opt("o", "synmaxcol", 800)
-opt("o", "hlsearch", true)
-opt("o", "cursorline", true)
-opt("o", "guifont", "SauceCodePro Nerd Font:h17")
-opt("o", "clipboard", "unnamedplus")
+vim.o.wildignore = { "*.o", "*~", "*.pyc", "*pycache*" }
+
 -- TODO Set spellfiles and shortcut to put words in them
 
+-- tabs and indenting --
+
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+vim.o.expandtab = true
+vim.bo.smartindent = true
 
 cmd([[hi! Comment gui=italic]])
-
--- Highlight VCS conflict markers
+-- Highlight merge conflicts
 fn.matchadd("ErrorMsg", "^\\(<\\|=\\|>\\)\\{7\\}\\([^=].\\+\\)\\?$")
-
-opt("o", "hidden", true)
-opt("o", "splitbelow", true)
-opt("o", "splitright", true)
-
-opt("o", "title", true)
-
-if fn.has("mouse") == 1 then
-  opt("o", "mouse", "a")
-end
-
-opt("o", "showcmd", true)
-opt("o", "showmode", true)
 
 -- Avoid showing message extra message when using completion
 -- Ensure autocmd works for Filetype
 vim.o.shortmess = string.gsub(vim.o.shortmess, "F", "") .. "c"
 
--- Undo, backup and swap files ---
-cmd("set undofile")
 -- The extra slash on the end saves files under the name of their full path
 -- with the / character replaced with a %.
-opt("o", "undodir", fn.expand("~/.config/nvim/tmp/undo//"))
--- Make the undo directory automatically if it doesn't already exist.
+cmd("set undofile")
+vim.o.undodir = fn.expand("~/.config/nvim/tmp/undo//")
 if fn.isdirectory(vim.o.undodir) == 0 then fn.mkdir(vim.o.undodir, "p") end
 
--- Set completeopt to have a better completion experience
-opt("o", "completeopt", "menuone,noinsert,noselect")
 
-
-opt("o", "backup", false)
-opt("o", "writebackup", false)
-opt("o", "autowrite", true)
-opt("o", "backupdir", fn.expand("~/.config/nvim/tmp/backup//"))
-
--- Make the backup directory automatically if it doesn't already exist.
+vim.o.backup = false
+vim.o.writebackup = false
+vim.o.autowrite = true
+vim.o.backupdir = fn.expand("~/.config/nvim/tmp/backup//")
 if fn.isdirectory(vim.o.backupdir) == 0 then fn.mkdir(vim.o.backupdir, "p") end
 
--- }}}
--- 19 the swap file ------------------------------------------------ {{{
-
-opt("o", "directory", fn.expand("~/.config/nvim/tmp/swap//"))
--- As of this writing (2021-02-13) for reasons unknown vim.o.noswapfile
--- isn't a thing in Lua + Neovim so we can't set it.
-cmd("set noswapfile")
-
--- Make the swap directory automatically if it doesn't already exist.
+vim.o.directory = fn.expand("~/.config/nvim/tmp/swap//")
+vim.bo.swapfile = true
 if fn.isdirectory(vim.o.directory) == 0 then fn.mkdir(vim.o.directory, "p") end
 
--- tabs and indenting --
 
-opt("o", "tabstop", 4)
-opt("o", "shiftwidth", 4)
-opt("o", "softtabstop", 4)
-opt("o", "expandtab", true)
-opt("b", "smartindent", true)
-
-
-opt("o", "timeoutlen", 500)
+vim.o.timeoutlen = 500
 
 -- Do not show stupid q: window
-map("", "q:", ":q")
+map("n", "q:", ":q")
 map("n", "<c-l>", ":nohlsearch<cr><c-l>")
 
-opt("w", "signcolumn", "yes")
+vim.wo.signcolumn = "yes"
 
 --
 -- Autogroups
@@ -186,25 +164,6 @@ require('plugconf.which-key')
 
 -- LSP
 require('lsp')
--- require('lsp.lua-ls')
--- require('lsp.bash-ls')
--- require('lsp.go-ls')
--- require('lsp.js-ts-ls')
--- require('lsp.python-ls')
--- require('lsp.rust-ls')
--- require('lsp.json-ls')
--- require('lsp.yaml-ls')
--- require('lsp.vim-ls')
--- require('lsp.graphql-ls')
--- require('lsp.docker-ls')
--- require('lsp.html-ls')
--- require('lsp.css-ls')
--- require('lsp.emmet-ls')
--- require('lsp.efm-general-ls')
--- require('lsp.latex-ls')
--- require('lsp.ruby-ls')
--- require('lsp.vue-ls')
--- require('lsp.angular-ls')
 
 vim.cmd('source ~/.config/nvim/vimscript/startify.vim')
 vim.cmd('source ~/.config/nvim/vimscript/todo-txt.vim')

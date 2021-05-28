@@ -9,7 +9,7 @@ O = {
     shell = 'sh',
 	timeoutlen = 100,
 
-    -- @usage pass a table with your desired languages
+    -- usage pass a table with your desired languages
     treesitter = {
         ensure_installed = "all",
         ignore_install = {"haskell"},
@@ -19,7 +19,7 @@ O = {
     },
     python = {
         linter = '',
-        -- @usage can be 'yapf', 'black'
+        -- options 'yapf', 'black'
         formatter = '',
         autoformat = false,
         isort = false,
@@ -27,29 +27,29 @@ O = {
 		analysis = {type_checking = "basic", auto_search_paths = true, use_library_code_types = true}
     },
     lua = {
-        -- @usage can be 'lua-format'
+        -- options 'lua-format'
         formatter = '',
         autoformat = false,
         diagnostics = {virtual_text = {spacing = 0, prefix = ""}, signs = true, underline = true}
     },
     sh = {
-        -- @usage can be 'shellcheck'
+        -- options 'shellcheck'
         linter = '',
-        -- @usage can be 'shfmt'
+        -- options 'shfmt'
         formatter = '',
         autoformat = false,
         diagnostics = {virtual_text = {spacing = 0, prefix = ""}, signs = true, underline = true}
     },
     tsserver = {
-        -- @usage can be 'eslint'
+        -- options 'eslint'
         linter = '',
-        -- @usage can be 'prettier'
+        -- options 'prettier'
         formatter = '',
         autoformat = false,
         diagnostics = {virtual_text = {spacing = 0, prefix = ""}, signs = true, underline = true}
     },
     json = {
-        -- @usage can be 'prettier'
+        -- options 'prettier'
         formatter = '',
         autoformat = false,
         diagnostics = {virtual_text = {spacing = 0, prefix = ""}, signs = true, underline = true}
@@ -61,7 +61,6 @@ O = {
 		filetypes = {'rb', 'erb', 'rakefile'}
 	},
     -- css = {formatter = '', autoformat = false, virtual_text = true},
-    -- json = {formatter = '', autoformat = false, virtual_text = true}
 
 }
 return O
