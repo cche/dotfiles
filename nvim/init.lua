@@ -69,7 +69,7 @@ vim.wo.cursorline = true
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noinsert,noselect"
 
-vim.o.wildignore = { "*.o", "*~", "*.pyc", "*pycache*" }
+vim.o.wildignore = "*.o,*~,*.pyc,*pycache*"
 
 -- TODO Set spellfiles and shortcut to put words in them
 
