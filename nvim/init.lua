@@ -11,7 +11,7 @@ local function map(mode, lhs, rhs, opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
--- opt("o", "shell", "fish")
+-- vim.o.shell = "fish"
 
 -- All plugins are in ~/.config/nvim/lua/plugins.lua.
 -- All individual plugin settings are in
@@ -63,8 +63,8 @@ vim.o.showmode = true
 vim.o.updatetime = 1000
 vim.wo.cursorline = true
 
--- opt("o", "background", "dark")
--- opt("o", "showmatch", true)
+-- vim.o.background = "dark"
+-- vim.o.showmatch = true
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noinsert,noselect"
