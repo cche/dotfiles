@@ -115,6 +115,10 @@ map("n", "<c-l>", ":nohlsearch<cr><c-l>")
 
 vim.wo.signcolumn = "yes"
 
+
+-- Python settings
+g.python3_host_prog = "~/miniconda3/bin/python3"
+
 --
 -- Autogroups
 --
